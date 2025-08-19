@@ -109,6 +109,17 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>11.7.2</version>
+				<configuration>
+					<url>${env.CHALLENGE_FORO_HUB_DB_URL}</url>
+					<user>${env.DB_USER}</user>
+					<password>${env.DB_PASSWORD}</password>
+					<cleanDisabled>false</cleanDisabled>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
