@@ -1,9 +1,6 @@
 package com.carlos.challenge_foro_hub.controller;
 
-import com.carlos.challenge_foro_hub.domain.topico.Topico;
-import com.carlos.challenge_foro_hub.domain.topico.TopicoObtenerDTO;
-import com.carlos.challenge_foro_hub.domain.topico.TopicoRegistroDTO;
-import com.carlos.challenge_foro_hub.domain.topico.TopicoRepository;
+import com.carlos.challenge_foro_hub.domain.topico.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +22,19 @@ public class TopicoController {
     }
 
     @GetMapping
-    public List<TopicoObtenerDTO> mostrar(){
+    public List<TopicoObtenerDTO> listar(){
         return repository.findAll().stream().map(TopicoObtenerDTO::new).toList();
+    }
+
+    @GetMapping("/{id}")
+    public TopicoObtenerDTO detallar(@PathVariable Long id){
+        return new TopicoObtenerDTO(repository.getReferenceById(id));
+    }
+
+    @Transactional
+    @PutMapping("/{id}")
+    public void actualizar(@PathVariable Long id, @RequestBody TopicoRegistroDTO datos){
+        var topico = repository.getReferenceById(id);
+        topico.actualizarInformacion(datos);
     }
 }

@@ -1,6 +1,7 @@
 package com.carlos.challenge_foro_hub.domain.topico;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,5 +43,17 @@ public class Topico {
         this.mensaje = datos.mensaje();
         this.autorId = datos.autorId();
         this.cursoId = datos.cursoId();
+    }
+
+    public void actualizarInformacion(TopicoRegistroDTO datos) {
+        if(datos.titulo() != null){
+            this.titulo = datos.titulo();
+        }
+        if(datos.mensaje() != null){
+            this.mensaje = datos.mensaje();
+        }
+        if(datos.cursoId() != null){
+            this.cursoId = datos.cursoId();
+        }
     }
 }
