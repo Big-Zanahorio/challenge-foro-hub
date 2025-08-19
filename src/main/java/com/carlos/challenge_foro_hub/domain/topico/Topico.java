@@ -1,7 +1,8 @@
 package com.carlos.challenge_foro_hub.domain.topico;
 
+import com.carlos.challenge_foro_hub.domain.usuario.Usuario;
+import com.carlos.challenge_foro_hub.domain.curso.Curso;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Table(name = "topicos")
-@Entity(name ="Topico")
+@Entity(name = "Topico")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,28 +33,30 @@ public class Topico {
 
     private boolean activo = true;
 
-    @Column(name = "autor_id")
-    private Long autorId;
+    @ManyToOne
+    @JoinColumn(name = "autor_id", nullable = false)
+    private Usuario autor;
 
-    @Column(name = "curso_id")
-    private Long cursoId;
+    @ManyToOne
+    @JoinColumn(name = "curso_id", nullable = false)
+    private Curso curso;
 
-    public Topico(TopicoRegistroDTO datos) {
+    public Topico(TopicoRegistroDTO datos, Usuario autor, Curso curso) {
         this.titulo = datos.titulo();
         this.mensaje = datos.mensaje();
-        this.autorId = datos.autorId();
-        this.cursoId = datos.cursoId();
+        this.autor = autor;
+        this.curso = curso;
     }
 
     public void actualizarInformacion(TopicoRegistroDTO datos) {
-        if(datos.titulo() != null){
+        if (datos.titulo() != null) {
             this.titulo = datos.titulo();
         }
-        if(datos.mensaje() != null){
+        if (datos.mensaje() != null) {
             this.mensaje = datos.mensaje();
         }
-        if(datos.cursoId() != null){
-            this.cursoId = datos.cursoId();
+        if (datos.cursoId() != null) {
+            this.curso = new Curso(datos.cursoId(), null, null);
         }
     }
 }

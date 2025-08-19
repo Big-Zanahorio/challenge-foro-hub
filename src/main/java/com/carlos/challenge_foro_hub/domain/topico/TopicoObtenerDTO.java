@@ -16,8 +16,8 @@ public record TopicoObtenerDTO(
                 topico.getMensaje(),
                 topico.getFechaCreacion(),
                 topico.isActivo(),
-                topico.getAutorId(),
-                topico.getCursoId()
+                topico.getAutor().getId(),
+                topico.getCurso().getId()
         );
     }
 }

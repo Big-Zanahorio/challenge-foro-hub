@@ -1,6 +1,8 @@
 package com.carlos.challenge_foro_hub.controller;
 
+import com.carlos.challenge_foro_hub.domain.curso.CursoRepository;
 import com.carlos.challenge_foro_hub.domain.topico.*;
+import com.carlos.challenge_foro_hub.domain.usuario.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +17,19 @@ public class TopicoController {
     @Autowired
     private TopicoRepository repository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private CursoRepository cursoRepository;
+
     @Transactional
     @PostMapping
     public void registrar(@RequestBody @Valid TopicoRegistroDTO datos){
-        repository.save(new Topico(datos));
+        var autor = usuarioRepository.getReferenceById(datos.autorId());
+        var curso = cursoRepository.getReferenceById(datos.cursoId());
+
+        repository.save(new Topico(datos, autor, curso));
     }
 
     @GetMapping
