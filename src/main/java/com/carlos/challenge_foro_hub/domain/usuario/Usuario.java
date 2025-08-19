@@ -1,6 +1,7 @@
 package com.carlos.challenge_foro_hub.domain.usuario;
 
 
+import com.carlos.challenge_foro_hub.domain.Perfil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -23,12 +24,14 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String login;
+    private String nombre;
+    private String correoElectronico;
     private String contrasena;
+    private List<Perfil> perfiles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return (Collection<? extends GrantedAuthority>) perfiles;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return correoElectronico;
     }
 
     @Override
