@@ -26,10 +26,11 @@ public class TopicoController {
     @Transactional
     @PostMapping
     public void registrar(@RequestBody @Valid TopicoRegistroDTO datos){
-        var autor = usuarioRepository.getReferenceById(datos.autorId());
-        var curso = cursoRepository.getReferenceById(datos.cursoId());
-
-        repository.save(new Topico(datos, autor, curso));
+        repository.save(new Topico(
+                datos,
+                usuarioRepository.getReferenceById(datos.autorId()),
+                cursoRepository.getReferenceById(datos.cursoId())
+        ));
     }
 
     @GetMapping
@@ -46,7 +47,7 @@ public class TopicoController {
     @PutMapping("/{id}")
     public void actualizar(@PathVariable Long id, @RequestBody TopicoRegistroDTO datos){
         var topico = repository.getReferenceById(id);
-        topico.actualizarInformacion(datos);
+        topico.actualizarInformacion(datos, cursoRepository.getReferenceById(datos.cursoId()));
     }
 
     @Transactional

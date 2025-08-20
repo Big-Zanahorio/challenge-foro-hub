@@ -1,8 +1,11 @@
 package com.carlos.challenge_foro_hub.controller;
 
 import com.carlos.challenge_foro_hub.domain.respuesta.Respuesta;
+import com.carlos.challenge_foro_hub.domain.respuesta.RespuestaObtenerDTO;
+import com.carlos.challenge_foro_hub.domain.respuesta.RespuestaRegistroDTO;
 import com.carlos.challenge_foro_hub.domain.respuesta.RespuestaRepository;
 import com.carlos.challenge_foro_hub.domain.topico.Topico;
+import com.carlos.challenge_foro_hub.domain.topico.TopicoObtenerDTO;
 import com.carlos.challenge_foro_hub.domain.topico.TopicoRepository;
 import com.carlos.challenge_foro_hub.domain.usuario.Usuario;
 import com.carlos.challenge_foro_hub.domain.usuario.UsuarioRepository;
@@ -28,25 +31,29 @@ public class RespuestaController {
 
     @Transactional
     @PostMapping
-    public void registrar(@RequestBody @Valid Respuesta datos){
-        Usuario autor = usuarioRepository.getReferenceById(datos.getAutor().getId());
-        Topico topico = topicoRepository.getReferenceById(datos.getTopico().getId());
-        repository.save(new Respuesta(null, datos.getMensaje(), topico, datos.getFechaCreacion(), autor, datos.getSolucion()));
+    public void registrar(@RequestBody @Valid RespuestaRegistroDTO datos){
+        Usuario autor = usuarioRepository.getReferenceById(datos.autorId());
+        Topico topico = topicoRepository.getReferenceById(datos.topicoId());
+        repository.save(new Respuesta(
+                datos,
+                topicoRepository.getReferenceById(datos.topicoId()),
+                usuarioRepository.getReferenceById(datos.autorId())
+                ));
     }
 
     @GetMapping
-    public List<Respuesta> listar(){
-        return repository.findAll();
+    public List<RespuestaObtenerDTO> listar(){
+        return repository.findAll().stream().map(RespuestaObtenerDTO::new).toList();
     }
 
     @GetMapping("/{id}")
-    public Respuesta detallar(@PathVariable Long id){
-        return repository.getReferenceById(id);
+    public RespuestaObtenerDTO detallar(@PathVariable Long id){
+        return new RespuestaObtenerDTO(repository.getReferenceById(id));
     }
 
     @Transactional
     @PutMapping("/{id}")
-    public void actualizar(@PathVariable Long id, @RequestBody Respuesta datos){
+    public void actualizar(@PathVariable Long id, @RequestBody RespuestaRegistroDTO datos){
         Respuesta respuesta = repository.getReferenceById(id);
         respuesta.actualizarInformacion(datos);
     }

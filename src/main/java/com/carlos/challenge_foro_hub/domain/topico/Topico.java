@@ -41,6 +41,7 @@ public class Topico {
     @JoinColumn(name = "curso_id", nullable = false)
     private Curso curso;
 
+
     public Topico(TopicoRegistroDTO datos, Usuario autor, Curso curso) {
         this.titulo = datos.titulo();
         this.mensaje = datos.mensaje();
@@ -48,15 +49,15 @@ public class Topico {
         this.curso = curso;
     }
 
-    public void actualizarInformacion(TopicoRegistroDTO datos) {
+    public void actualizarInformacion(TopicoRegistroDTO datos, Curso curso) {
         if (datos.titulo() != null) {
             this.titulo = datos.titulo();
         }
         if (datos.mensaje() != null) {
             this.mensaje = datos.mensaje();
         }
-        if (datos.cursoId() != null) {
-            this.curso = new Curso(datos.cursoId(), null, null);
+        if (curso != null) {
+            this.curso = curso;
         }
     }
 }

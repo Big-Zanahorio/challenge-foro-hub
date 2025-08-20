@@ -1,6 +1,7 @@
 package com.carlos.challenge_foro_hub.domain.curso;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,13 +24,18 @@ public class Curso {
     @Column(nullable = false)
     private String categoria;
 
-    public void actualizarInformacion(Curso datos) {
+    public Curso(@Valid CursoRegistroDTO datos) {
+        this.nombre = datos.nombre();
+        this.categoria = datos.categoria();
+    }
 
-        if(datos.getNombre() != null) {
-            this.nombre = datos.getNombre();
+    public void actualizarInformacion(CursoRegistroDTO datos) {
+
+        if(datos.nombre() != null) {
+            this.nombre = datos.nombre();
         }
-        if(datos.getCategoria() != null) {
-            this.categoria = datos.getCategoria();
+        if(datos.categoria() != null) {
+            this.categoria = datos.categoria();
         }
     }
 }

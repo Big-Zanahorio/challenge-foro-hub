@@ -1,7 +1,8 @@
 package com.carlos.challenge_foro_hub.domain.usuario;
 
-import com.carlos.challenge_foro_hub.domain.Perfil;
+import com.carlos.challenge_foro_hub.domain.perfil.Perfil;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -38,6 +39,12 @@ public class Usuario implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "perfil_id")
     )
     private List<Perfil> perfiles;
+
+    public Usuario(@Valid UsuarioRegistroDTO datos) {
+        this.nombre = datos.nombre();
+        this.correoElectronico = datos.correoElectronico();
+        this.contrasena = datos.contrasena();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -85,6 +92,18 @@ public class Usuario implements UserDetails {
         }
         if (datos.getContrasena() != null) {
             this.contrasena = datos.getContrasena();
+        }
+    }
+
+    public void actualizarInformacion(UsuarioRegistroDTO datos) {
+        if(datos.nombre() != null){
+            this.nombre = datos.nombre();
+        }
+        if(datos.correoElectronico() != null){
+            this.correoElectronico = datos.correoElectronico();
+        }
+        if(datos.contrasena() != null){
+            this.contrasena = datos.contrasena();
         }
     }
 }

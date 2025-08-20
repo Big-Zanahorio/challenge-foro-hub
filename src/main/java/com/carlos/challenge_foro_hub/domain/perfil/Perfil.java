@@ -1,4 +1,4 @@
-package com.carlos.challenge_foro_hub.domain;
+package com.carlos.challenge_foro_hub.domain.perfil;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
