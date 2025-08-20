@@ -83,17 +83,6 @@ public class Usuario implements UserDetails {
         return true;
     }
 
-    public void actualizarInformacion(Usuario datos) {
-        if (datos.getNombre() != null) {
-            this.nombre = datos.getNombre();
-        }
-        if (datos.getCorreoElectronico() != null) {
-            this.correoElectronico = datos.getCorreoElectronico();
-        }
-        if (datos.getContrasena() != null) {
-            this.contrasena = datos.getContrasena();
-        }
-    }
 
     public void actualizarInformacion(UsuarioRegistroDTO datos) {
         if(datos.nombre() != null){

@@ -18,7 +18,7 @@ class CursoTest {
     }
 
     @Test
-    @DisplayName("Actualiza solo campos nulos")
+    @DisplayName("Actualiza solo campos no nulos")
     void actualizarInformacionEscenario1() {
         Curso curso = new Curso(new CursoRegistroDTO("Spring", "Backend"));
 
